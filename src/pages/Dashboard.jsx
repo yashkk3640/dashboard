@@ -17,14 +17,7 @@ import {
   Th,
   Td,
 } from "@chakra-ui/react";
-
-const typeOptions = [
-  { label: "Button", value: "button" },
-  { label: "Input", value: "input" },
-  { label: "Number", value: "number" },
-  { label: "Select", value: "select" },
-  { label: "Date", value: "date" },
-];
+import { typeOptions } from "./dashboard.config";
 
 const Dashboard = () => {
   const [form, setForm] = useState({ name: "", type: "input" });
@@ -47,58 +40,62 @@ const Dashboard = () => {
       <Heading mb={4} textAlign="center">
         Dashboard
       </Heading>
-      <Box maxW="400px" mx="auto" mb={8}>
-        <form onSubmit={handleSubmit}>
-          <VStack spacing={4} align="stretch">
-            <FormControl isRequired>
-              <FormLabel>Name</FormLabel>
-              <Input
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                placeholder="Enter field name"
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel>Type</FormLabel>
-              <Select name="type" value={form.type} onChange={handleChange}>
-                {typeOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
-            <Button colorScheme="blue" type="submit">
-              Add Field
-            </Button>
-          </VStack>
-        </form>
-      </Box>
-      <Box maxW="600px" mx="auto">
-        <Heading size="md" mb={2}>
-          Fields
-        </Heading>
-        {fields.length === 0 ? (
-          <Text color="gray.500">No fields added yet.</Text>
-        ) : (
-          <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th>Name</Th>
-                <Th>Type</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {fields.map((field, idx) => (
-                <Tr key={idx}>
-                  <Td>{field.name}</Td>
-                  <Td>{field.type}</Td>
+      <Box display="flex" gap={8}>
+        {/* Left Side: Form */}
+        <Box flex="1" maxW="50%">
+          <form onSubmit={handleSubmit}>
+            <VStack spacing={4} align="stretch">
+              <FormControl isRequired>
+                <FormLabel>Name</FormLabel>
+                <Input
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Enter field name"
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel>Type</FormLabel>
+                <Select name="type" value={form.type} onChange={handleChange}>
+                  {typeOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              <Button colorScheme="blue" type="submit">
+                Add Field
+              </Button>
+            </VStack>
+          </form>
+        </Box>
+        {/* Right Side: Table */}
+        <Box flex="1" maxW="50%">
+          <Heading size="md" mb={2}>
+            Fields
+          </Heading>
+          {fields.length === 0 ? (
+            <Text color="gray.500">No fields added yet.</Text>
+          ) : (
+            <Table variant="simple">
+              <Thead>
+                <Tr>
+                  <Th>Name</Th>
+                  <Th>Type</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        )}
+              </Thead>
+              <Tbody>
+                {fields.map((field, idx) => (
+                  <Tr key={idx}>
+                    <Td>{field.name}</Td>
+                    <Td>{field.type}</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          )}
+        </Box>
       </Box>
     </Box>
   );
