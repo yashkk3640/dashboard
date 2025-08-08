@@ -17,7 +17,7 @@ import {
   Th,
   Td,
 } from "@chakra-ui/react";
-import { typeOptions } from "./dashboard.config";
+import { typeOptions } from "./dashboard/dashboard.config";
 
 const Dashboard = () => {
   const [form, setForm] = useState({ name: "", type: "input" });
