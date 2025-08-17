@@ -23,12 +23,16 @@ const Chat = () => {
       setIsLoading(true);
       // Add user message
       const userMessage = {
-        text: inputMessage,
-        sender: "user",
+        content: inputMessage,
+        role: "user",
         timestamp: new Date().toISOString(),
       };
-
-      setMessages((prev) => [...prev, userMessage]);
+      let messages = [userMessage];
+      setMessages((prev) => {
+        const newMsgs = [...prev, userMessage];
+        messages = newMsgs;
+        return newMsgs;
+      });
       setInputMessage("");
 
       // Here you can add your API call
@@ -39,14 +43,42 @@ const Chat = () => {
       // });
       // const data = await response.json();
 
+      const response = await fetch(
+        "https://openrouter.ai/api/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization:
+              "Bearer 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",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "mistralai/mistral-7b-instruct", // You can also try "meta-llama/llama-3-8b-instruct"
+            messages: messages.map((m) => ({
+              content: m.content,
+              role: m.role,
+            })),
+            // [
+            //   { role: "system", content: "You are a helpful assistant." },
+            //   { role: "user", content: "Write a short poem about the ocean." },
+            // ],
+          }),
+        }
+      );
+
+      const data = await response.json();
+      console.log("Response:", data.choices[0].message.content);
+
       // Simulate API response for now
-      const botMessage = {
-        text: `Response to: ${inputMessage}`,
-        sender: "bot",
+      const assistMessage = {
+        content: data.choices[0].message.content,
+        // role: "bot",
+        // timestamp: new Date().toISOString(),
+        role: "assistant",
         timestamp: new Date().toISOString(),
       };
 
-      setMessages((prev) => [...prev, botMessage]);
+      setMessages((prev) => [...prev, assistMessage]);
     } catch (error) {
       toast({
         title: "Error",
@@ -81,18 +113,18 @@ const Chat = () => {
           {messages.map((message, index) => (
             <Flex
               key={index}
-              justify={message.sender === "user" ? "flex-end" : "flex-start"}
+              justify={message.role === "user" ? "flex-end" : "flex-start"}
               mb={4}
             >
               <Box
-                bg={message.sender === "user" ? "blue.500" : "gray.200"}
-                color={message.sender === "user" ? "white" : "black"}
+                bg={message.role === "user" ? "blue.500" : "gray.200"}
+                color={message.role === "user" ? "white" : "black"}
                 px={4}
                 py={2}
                 borderRadius="lg"
                 maxW="70%"
               >
-                <Text>{message.text}</Text>
+                <Text>{message.content}</Text>
                 <Text fontSize="xs" opacity={0.8}>
                   {new Date(message.timestamp).toLocaleTimeString()}
                 </Text>
