@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Dashboard from "./pages/dashboard/index.jsx";
+import Chat from "./pages/chat";
 
 const App = () => (
   <ChakraProvider>
@@ -15,6 +16,7 @@ const App = () => (
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </Box>
     </Router>

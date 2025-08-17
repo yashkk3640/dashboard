@@ -15,6 +15,9 @@ const Navbar = () => (
         Dashboard
       </Link>
       <Spacer />
+      <Link as={RouterLink} to="/chat" mx={2} color="white">
+        LLM Chat
+      </Link>
       <Link as={RouterLink} to="/about" mx={2} color="white">
         About
       </Link>
