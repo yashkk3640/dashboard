@@ -18,7 +18,7 @@ import {
   Td,
 } from "@chakra-ui/react";
 import { typeOptions } from "./dashboard.config";
-import { useDashboard } from "./DashboardContext";
+import { useDashboard } from "./DashboardContext.jsx";
 
 const Dashboard = () => {
   const [form, setForm] = useState({ name: "", type: "input" });
@@ -27,6 +27,7 @@ const Dashboard = () => {
     { name: "last name", type: "input" },
     { name: "age", type: "number" },
     { name: "college", type: "select" },
+    { name: "submit", type: "button" },
   ]);
 
   const { setFieldConfig } = useDashboard();
