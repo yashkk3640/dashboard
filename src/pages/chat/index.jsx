@@ -17,8 +17,7 @@ const CALL_LLM = async (messages) => {
     {
       method: "POST",
       headers: {
-        Authorization:
-          "Bearer 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",
+        Authorization: `Bearer ${import.meta.env.VITE_APP_OPEN_ROUTER_LLM}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
